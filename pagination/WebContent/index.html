@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+<meta charset="UTF-8">
+<title></title>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/DataPager.js"></script>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+
+		var totalPage = getData(1, 20, "cell_location");
+		var myDataPager = new DataPager(1, 5, totalPage, "#links");
+		myDataPager.show();
+		var srcElement = null;
+			
+		
+		myDataPager.linkOnclick(function(e) {
+
+			var target = e.srcElement || e.target;
+			console.log(srcElement, e.srcElement, e.target);
+			if (srcElement == null) {
+				srcElement = target;
+			} else {
+				srcElement.className = null;
+				srcElement = target;
+			}
+			if (target.tagName.toLowerCase() == "a") {
+				target.className = "myLink";
+			}
+			var page = 0;
+			if (!isNaN(parseInt(target.innerText))) {
+				page = parseInt(target.innerText);
+				
+				getData(page, 20, "cell_location");
+			
+			}
+		});
+
+	});
+	//end of pagination;
+</script>
+
+<style type="text/css">
+.myLink {
+	margin: 0px auto;
+	background-color: deepskyblue;
+}
+</style>
+</head>
+<body>
+	<div id="show_info"></div>
+	<div id="links"></div>
+</body>
+</html>
