@@ -7,14 +7,57 @@
 <script type="text/javascript" src="js/DataPager.js"></script>
 
 <script type="text/javascript">
+	//pagination;
+	var totalPage = 0;
+	var totalItem = 0;
+	function getData(i, a, b) {
+
+		$
+				.ajax({
+					url : "pagination.jsp",
+					type : "get",
+					data : {
+						"i" : i,
+						pagesize : a,
+						tablename : b
+					},
+					dataType : "json",
+					async : false,
+					success : function(jsonData) {
+						var mother = $("#show_info");
+						mother.empty();
+						var items = jsonData.items;
+						console.log("items", items);
+						totalPage = jsonData.pagination[0].totalPage;//总共页面
+						totalItem = jsonData.pagination[0].totalItem;//总共数据
+
+						for (var i = 0; i < items.length; i++) {
+							var tmp = "<ul>"
+									+ "<li class='li_check'><input type=\"checkbox\" name=\"id\" value=\""+items[i]["id"]+"\"/></li>"
+									+ "<li class='li_id'>" + items[i]['id']
+									+ "</li>" + "<li class='lis'>"
+									+ items[i]['cell_number'] + "</li>"
+									+ "<li class='lis'>" + items[i]['city']
+									+ "</li>" + "<li class='lis'>"
+									+ items[i]['card_type'] + "</li>" + "</ul>";
+
+							mother.append(tmp);
+						}
+
+					}
+				});
+
+		return totalPage;
+
+	}
+
 	$(document).ready(function() {
 
-		var totalPage = getData(1, 20, "cell_location");
+		getData(1, 20, "cell_location");
 		var myDataPager = new DataPager(1, 5, totalPage, "#links");
 		myDataPager.show();
 		var srcElement = null;
-			
-		
+
 		myDataPager.linkOnclick(function(e) {
 
 			var target = e.srcElement || e.target;
@@ -31,9 +74,9 @@
 			var page = 0;
 			if (!isNaN(parseInt(target.innerText))) {
 				page = parseInt(target.innerText);
-				
+
 				getData(page, 20, "cell_location");
-			
+
 			}
 		});
 

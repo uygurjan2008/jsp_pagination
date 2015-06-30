@@ -8,7 +8,7 @@
 <%@ page language="java" contentType="application/json; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
-	String tablename = "userblog";
+	String tablename = "town";
 	int pagesize = 15;
 	int index = 1;
 	if (request.getParameter("tablename") != null) {
@@ -31,7 +31,7 @@
 		Class.forName("com.mysql.jdbc.Driver");
 		conn = DriverManager
 				.getConnection(
-						"jdbc:mysql://localhost:3306/databasename?useUnicode=true&characterEncoding=utf8",
+						"jdbc:mysql://localhost:3306/uy_business_manager?useUnicode=true&characterEncoding=utf8",
 						"root", "root");
 		
 		stmt = conn.createStatement();
@@ -45,6 +45,7 @@
 		List<Object> l = new ArrayList<Object>();
 		Map<String, String> map = new LinkedHashMap<String, String>();
 		JSONArray array = new JSONArray();
+		
 		ResultSet rs = stmt1.executeQuery(sql);
 		while (rs.next()) {
 			for (int i = 0; i < s.length; i++) {
